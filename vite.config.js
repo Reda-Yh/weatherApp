@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/weather': {
-        target: 'http://api.openweathermap.org',
+        target: 'https://api.openweathermap.org',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/weather/, ''),
       },
