@@ -24,10 +24,10 @@ function Home() {
 
     try {
       const weatherResponse = await axios.get(
-        `/weather/data/2.5/forecast?q=${city}&units=metric&APPID=0d0403bf7ca0d68c10ddfe7a6d572ce4`
+        `http://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&APPID=0d0403bf7ca0d68c10ddfe7a6d572ce4`
       );
       const imageResponse = await axios.get(
-        `/pixabay/api/?q=${city}&key=49718300-187aa05bb868030cd55cb4925`
+        `https://pixabay.com/api/?q=${city}&key=49718300-187aa05bb868030cd55cb4925`
       );
       setResults({
         weather: weatherResponse.data,
