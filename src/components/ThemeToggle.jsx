@@ -20,7 +20,7 @@ const ThemeToggle = () => {
       size="icon" 
     >
       {theme === 'dark' ? (
-        <Sun className="w-5 h-5 text-gray-500" />
+        <Sun className="w-5 h-5 text-gray-300" />
       ) : (
         <Moon className="w-5 h-5 text-gray-600 dark:text-gray-300" />
       )}
