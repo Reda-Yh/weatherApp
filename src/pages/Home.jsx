@@ -5,13 +5,25 @@ import { motion } from 'framer-motion';
 import SearchBar from '../components/SearchBar';
 import FeaturedCities from '../components/FeaturedCities';
 import ImageGrid from '../components/ImageGrid';
+import { useLanguage } from '../context/LanguageContext';
 
 function Home() {
+  const { language } = useLanguage();
   const [city, setCity] = useState('');
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const translations = {
+    title: language === 'en' ? 'Weather & Image Search' : 'Recherche Météo et Images',
+    errorNoCity: language === 'en'
+      ? 'Please enter a city name'
+      : 'Veuillez entrer le nom d’une ville',
+    errorFetch: language === 'en'
+      ? 'Error fetching data. Please check the city name and try again.'
+      : 'Erreur lors de la récupération des données. Veuillez vérifier le nom de la ville et réessayer.',
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -37,7 +49,7 @@ function Home() {
 
   const fetchWeatherAndImages = async () => {
     if (!city) {
-      setError('Please enter a city name');
+      setError(translations.errorNoCity);
       return;
     }
 
@@ -56,7 +68,7 @@ function Home() {
         images: imageResponse.data.hits,
       });
     } catch (error) {
-      setError('Error fetching data. Please check the city name and try again.');
+      setError(translations.errorFetch);
       console.error("Error fetching data:", error);
     }
 
@@ -88,7 +100,7 @@ function Home() {
           className="text-4xl md:text-5xl font-bold text-center mb-8 bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text"
           variants={itemVariants}
         >
-          Weather & Image Search
+          {translations.title}
         </motion.h1>
 
         <motion.div variants={itemVariants}>

@@ -2,11 +2,43 @@ import { Mail, MapPin, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
+import { useLanguage } from '../context/LanguageContext';
 
 function Contact() {
+  const { language } = useLanguage();
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState(null);
+
+  const translations = {
+    title: language === 'en' ? 'Get in Touch' : 'Contactez-nous',
+    labels: {
+      name: language === 'en' ? 'Name' : 'Nom',
+      email: 'Email',
+      message: language === 'en' ? 'Message' : 'Message',
+    },
+    placeholders: {
+      name: language === 'en' ? 'Your name' : 'Votre nom',
+      email: language === 'en' ? 'you@example.com' : 'votre.email@exemple.com',
+      message: language === 'en' ? 'Your message...' : 'Votre message...',
+    },
+    button: language === 'en' ? 'Send Message' : 'Envoyer le message',
+    submitted: language === 'en' ? 'Message Sent!' : 'Message envoyé !',
+    alerts: {
+      success: {
+        title: language === 'en' ? 'Message Sent!' : 'Message envoyé !',
+        text: language === 'en'
+          ? 'Your message has been successfully sent.'
+          : 'Votre message a bien été envoyé.',
+      },
+      error: {
+        title: language === 'en' ? 'Oops...' : 'Oups...',
+        text: language === 'en'
+          ? 'Something went wrong. Please try again later.'
+          : 'Quelque chose s’est mal passé. Veuillez réessayer plus tard.',
+      },
+    },
+  };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -14,9 +46,8 @@ function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xdkebrnk';
-  
+
     try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: 'POST',
@@ -26,20 +57,20 @@ function Contact() {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (response.ok) {
         setIsSubmitted(true);
         setError(null);
-  
+
         Swal.fire({
           icon: 'success',
-          title: 'Message Sent!',
-          text: 'Your message has been successfully sent.',
+          title: translations.alerts.success.title,
+          text: translations.alerts.success.text,
           background: '#1F2937',
           color: '#F9FAFB',
           confirmButtonColor: '#3B82F6',
         });
-  
+
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({ name: '', email: '', message: '' });
@@ -48,21 +79,18 @@ function Contact() {
         throw new Error('Form submission failed');
       }
     } catch (err) {
-      setError('Something went wrong. Please try again.');
-  
+      setError(translations.alerts.error.text);
       Swal.fire({
         icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong. Please try again later.',
+        title: translations.alerts.error.title,
+        text: translations.alerts.error.text,
         background: '#1F2937',
         color: '#F9FAFB',
         confirmButtonColor: '#EF4444',
       });
-  
       console.error(err);
     }
   };
-  
 
   const containerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -78,6 +106,35 @@ function Contact() {
     visible: { opacity: 1, x: 0, transition: { duration: 0.4 } },
   };
 
+  // Tableau des informations de contact. Les titres sont traduits.
+  const contactInfo = [
+    {
+      icon: <MapPin className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
+      title: language === 'en' ? 'Address' : 'Adresse',
+      content: 'UIA, Agadir, Morocco',
+    },
+    {
+      icon: <Phone className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
+      title: language === 'en' ? 'Phone' : 'Téléphone',
+      content: '+212 6 51 83 40 41',
+    },
+    {
+      icon: <Mail className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
+      title: 'Email',
+      content: 'redayahyapro@gmail.com',
+    },
+    {
+      icon: <Phone className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
+      title: language === 'en' ? 'Phone' : 'Téléphone',
+      content: '+212 6 40 84 88 85',
+    },
+    {
+      icon: <Mail className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
+      title: 'Email',
+      content: 'oussama.hmitti@e-polytechnique.ma',
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-8">
       <motion.h2
@@ -86,7 +143,7 @@ function Contact() {
         transition={{ duration: 0.5 }}
         className="text-5xl font-extrabold text-center mb-16 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400"
       >
-        Get in Touch
+        {translations.title}
       </motion.h2>
 
       <motion.div
@@ -97,33 +154,7 @@ function Contact() {
       >
         {/* Contact Info */}
         <motion.div variants={containerVariants} className="space-y-8">
-          {[
-            {
-              icon: <MapPin className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
-              title: 'Address',
-              content: 'UIA, Agadir, Morocco',
-            },
-            {
-              icon: <Phone className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
-              title: 'Phone',
-              content: '+212 6 51 83 40 41',
-            },
-            {
-              icon: <Mail className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
-              title: 'Email',
-              content: 'redayahyapro@gmail.com',
-            },
-            {
-              icon: <Phone className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
-              title: 'Phone',
-              content: '+212 6 40 84 88 85',
-            },
-            {
-              icon: <Mail className="w-7 h-7 text-blue-500 dark:text-blue-400" />,
-              title: 'Email',
-              content: 'oussama.hmitti@e-polytechnique.ma',
-            },
-          ].map((item, index) => (
+          {contactInfo.map((item, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
@@ -131,7 +162,9 @@ function Contact() {
             >
               {item.icon}
               <div>
-                <h4 className="font-semibold text-lg text-gray-800 dark:text-gray-100">{item.title}</h4>
+                <h4 className="font-semibold text-lg text-gray-800 dark:text-gray-100">
+                  {item.title}
+                </h4>
                 <p className="text-gray-600 dark:text-gray-300">{item.content}</p>
               </div>
             </motion.div>
@@ -147,7 +180,9 @@ function Contact() {
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-indigo-500/10 rounded-2xl pointer-events-none" />
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Name</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+              {translations.labels.name}
+            </label>
             <input
               type="text"
               name="name"
@@ -155,12 +190,14 @@ function Contact() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              placeholder="Your name"
+              placeholder={translations.placeholders.name}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+              {translations.labels.email}
+            </label>
             <input
               type="email"
               name="email"
@@ -168,12 +205,14 @@ function Contact() {
               onChange={handleChange}
               required
               className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              placeholder="you@example.com"
+              placeholder={translations.placeholders.email}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Message</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
+              {translations.labels.message}
+            </label>
             <textarea
               name="message"
               value={formData.message}
@@ -181,7 +220,7 @@ function Contact() {
               required
               rows="5"
               className="w-full px-4 py-3 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 resize-none"
-              placeholder="Your message..."
+              placeholder={translations.placeholders.message}
             ></textarea>
           </div>
 
@@ -204,7 +243,7 @@ function Contact() {
               isSubmitted ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            {isSubmitted ? 'Message Sent!' : 'Send Message'}
+            {isSubmitted ? translations.submitted : translations.button}
           </motion.button>
         </motion.form>
       </motion.div>

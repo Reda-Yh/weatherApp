@@ -9,11 +9,27 @@ import {
 } from 'react-icons/wi';
 import { IoArrowBack } from 'react-icons/io5';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const DetailsPage = () => {
+  const { language } = useLanguage();
   const location = useLocation();
   const navigate = useNavigate();
   const { name, imageUrl, weather } = location.state || {};
+
+  const translations = {
+    noData: language === 'en' ? 'No data found.' : 'Aucune donnée trouvée.',
+    goBack: language === 'en' ? 'Go back' : 'Retour',
+    weatherCards: {
+      temperature: language === 'en' ? 'Temperature' : 'Température',
+      humidity: language === 'en' ? 'Humidity' : 'Humidité',
+      windSpeed: language === 'en' ? 'Wind Speed' : 'Vitesse du vent',
+      pressure: language === 'en' ? 'Pressure' : 'Pression',
+      feelsLike: language === 'en' ? 'Feels Like' : 'Ressenti',
+      condition: language === 'en' ? 'Condition' : 'Condition',
+    },
+    backToSearch: language === 'en' ? 'Back to Search' : 'Retour à la recherche',
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -52,7 +68,7 @@ const DetailsPage = () => {
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
           >
-            No data found.
+            {translations.noData}
           </motion.p>
           <motion.button
             onClick={() => navigate('/')}
@@ -63,13 +79,14 @@ const DetailsPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <IoArrowBack /> Go back
+            <IoArrowBack /> {translations.goBack}
           </motion.button>
         </div>
       </motion.div>
     );
   }
 
+  // Utilisation du premier élément de weather.list pour récupérer les infos météo
   const weatherInfo = weather.list[0];
   const condition = weatherInfo.weather[0].description;
   const emojiCondition = condition.includes('rain')
@@ -80,8 +97,9 @@ const DetailsPage = () => {
     ? '☀️'
     : '🌤️';
 
+  // Extraction des tags à partir du nom
   const tags = name
-    ? [...new Set(name.split(',').map(tag => tag.trim()))].slice(0, 9)
+    ? [...new Set(name.split(',').map((tag) => tag.trim()))].slice(0, 9)
     : [];
 
   return (
@@ -125,45 +143,41 @@ const DetailsPage = () => {
         </motion.div>
 
         {/* Weather Info */}
-        <motion.div
-          className="p-8"
-          variants={containerVariants}
-        >
+        <motion.div className="p-8" variants={containerVariants}>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Weather Info Cards */}
             <WeatherCard
               icon={<WiThermometer className="text-4xl text-primary" />}
-              label="Temperature"
+              label={translations.weatherCards.temperature}
               value={`${weatherInfo.main.temp}°C`}
               variants={itemVariants}
             />
             <WeatherCard
               icon={<WiHumidity className="text-4xl text-primary" />}
-              label="Humidity"
+              label={translations.weatherCards.humidity}
               value={`${weatherInfo.main.humidity}%`}
               variants={itemVariants}
             />
             <WeatherCard
               icon={<WiStrongWind className="text-4xl text-primary" />}
-              label="Wind Speed"
+              label={translations.weatherCards.windSpeed}
               value={`${weatherInfo.wind.speed} m/s`}
               variants={itemVariants}
             />
             <WeatherCard
               icon={<WiBarometer className="text-4xl text-primary" />}
-              label="Pressure"
+              label={translations.weatherCards.pressure}
               value={`${weatherInfo.main.pressure} hPa`}
               variants={itemVariants}
             />
             <WeatherCard
               icon={<WiDaySunny className="text-4xl text-primary" />}
-              label="Feels Like"
+              label={translations.weatherCards.feelsLike}
               value={`${weatherInfo.main.feels_like}°C`}
               variants={itemVariants}
             />
             <WeatherCard
               icon={<WiCloudy className="text-4xl text-primary" />}
-              label="Condition"
+              label={translations.weatherCards.condition}
               value={
                 <span className="inline-flex items-center gap-1 text-lg font-semibold">
                   {emojiCondition} {condition}
@@ -181,7 +195,7 @@ const DetailsPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <IoArrowBack /> Back to Search
+            <IoArrowBack /> {translations.backToSearch}
           </motion.button>
         </motion.div>
       </div>
