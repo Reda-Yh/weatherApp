@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ThemeToggle from './ThemeToggle';
 import { Menu, X } from 'lucide-react';
 
@@ -26,7 +26,7 @@ function Header() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-primary">WeatherScope</h2>
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-blue-600 bg-clip-text text-transparent">WeatherScope</h2>
 
         {/* Mobile burger */}
         <div className="md:hidden">
@@ -39,8 +39,8 @@ function Header() {
         <nav className="hidden md:block">
           <ul className="flex space-x-6">
             <li><a href="/" className="text-gray-600 dark:text-gray-300 hover:text-primary">Home</a></li>
-            <li><a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-primary">About</a></li>
-            <li><a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-primary">Contact</a></li>
+            <li><a href="/team" className="text-gray-600 dark:text-gray-300 hover:text-primary">About</a></li>
+            <li><a href="/contact" className="text-gray-600 dark:text-gray-300 hover:text-primary">Contact</a></li>
             <li><ThemeToggle /></li>
           </ul>
         </nav>
@@ -51,8 +51,8 @@ function Header() {
         <nav className="md:hidden bg-white/90 dark:bg-gray-800/90 backdrop-blur px-4 pb-4">
           <ul className="space-y-3">
             <li><a href="/" className="block text-gray-600 dark:text-gray-300 hover:text-primary">Home</a></li>
-            <li><a href="#about" className="block text-gray-600 dark:text-gray-300 hover:text-primary">About</a></li>
-            <li><a href="#contact" className="block text-gray-600 dark:text-gray-300 hover:text-primary">Contact</a></li>
+            <li><a href="/team" className="block text-gray-600 dark:text-gray-300 hover:text-primary">About</a></li>
+            <li><a href="/contact" className="block text-gray-600 dark:text-gray-300 hover:text-primary">Contact</a></li>
             <li><ThemeToggle /></li>
           </ul>
         </nav>
