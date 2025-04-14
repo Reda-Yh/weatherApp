@@ -15,10 +15,10 @@ function Footer() {
           <a href="mailto:redayahyapro@gmail.com" target="_blank" rel="noopener noreferrer">
             <Mail className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-primary transition" />
           </a>
-          <a href="https://linkedin.com/in/redayahya" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.linkedin.com/in/reda-yahya-920976253/" target="_blank" rel="noopener noreferrer">
             <Linkedin className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-primary transition" />
           </a>
-          <a href="https://github.com/redayahya" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Reda-Yh" target="_blank" rel="noopener noreferrer">
             <Github className="w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-primary transition" />
           </a>
           <a href="https://twitter.com/redayahya" target="_blank" rel="noopener noreferrer">
