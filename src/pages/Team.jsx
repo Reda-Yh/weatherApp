@@ -10,7 +10,7 @@ const teamMembers = [
       en: "Passionate Software Engineer skilled in building innovative solutions with expertise in web development and problem-solving.",
       fr: "Ingénieur logiciel passionné, expert dans la création de solutions innovantes, spécialisé en développement web et en résolution de problèmes."
     },
-    image: "https://i.ibb.co/DD2QSX6t/Reda-Yahya.jpg",
+    image: "https://i.ibb.co/mV9NYQR3/Reda-Yahya-img.jpg   ",
     portfolio: "https://portfolio-2025-sigma.vercel.app/",
     email: "mailto:redayahyapro@gmail.com",
     linkedin: "https://www.linkedin.com/in/reda-yahya-920976253/",
